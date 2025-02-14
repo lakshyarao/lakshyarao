@@ -1,0 +1,57 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_LEN 100000
+
+
+void computeZ(char *s, int *Z, int n) {
+    int L = 0, R = 0, K;
+    for (int i = 1; i < n; i++) {
+        if (i > R) {
+            L = R = i;
+            while (R < n && s[R] == s[R - L]) {
+                R++;
+            }
+            Z[i] = R - L;
+            R--;
+        } else {
+            K = i - L;
+            if (Z[K] < R - i + 1) {
+                Z[i] = Z[K];
+            } else {
+                L = i;
+                while (R < n && s[R] == s[R - L]) {
+                    R++;
+                }
+                Z[i] = R - L;
+                R--;
+            }
+        }
+    }
+}
+
+int main() {
+    int t;
+    scanf("%d", &t);
+    
+    while (t--) {
+        char s[MAX_LEN + 1];
+        scanf("%s", s);
+        int n = strlen(s);
+        int Z[MAX_LEN] = {0};
+        
+        
+        computeZ(s, Z, n);
+        
+       
+        long long sum = n; // Initial similarity with itself
+        for (int i = 1; i < n; i++) {
+            sum += Z[i];
+        }
+        
+        
+        printf("%lld\n", sum);
+    }
+    
+    return 0;
+}
