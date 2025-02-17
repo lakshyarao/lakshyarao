@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+
+int mod_exp(int base, long long exp, int mod) {
+    int result = 1;
+    base = base % mod;
+    
+    while (exp > 0) {
+        if (exp % 2 == 1) {
+            result = (result * base) % mod;
+        }
+        exp = exp >> 1;
+        base = (base * base) % mod;
+    }
+    return result;
+}
+
+
+int compute_last_two_digits(long long K, long long N) {
+    int cycle[100], cycle_length = 0;
+    int sum_cycle = 0;
+
+    
+    for (int i = 1; i <= 100; i++) {
+        cycle[cycle_length] = mod_exp(i, N, 100);
+        sum_cycle += cycle[cycle_length];
+        cycle_length++;
+    }
+
+   
+    long long full_cycles = K / 100;
+    long long remainder = K % 100;
+
+    int total_sum = (full_cycles * sum_cycle) % 100;
+    
+    for (int i = 1; i <= remainder; i++) {
+        total_sum = (total_sum + mod_exp(i, N, 100)) % 100;
+    }
+
+    return total_sum;
+}
+
+int main() {
+    int T;
+    scanf("%d", &T);
+
+    while (T--) {
+        long long K, N;
+        scanf("%lld %lld", &K, &N);
+        
+        int result = compute_last_two_digits(K, N);
+        printf("%02d\n", result); // Ensure 2-digit format
+    }
+
+    return 0;
+}
