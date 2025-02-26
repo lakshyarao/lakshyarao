@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void miniMaxSum(int arr[], int size) {
+    long min_sum = 0, max_sum = 0;
+    
+    
+    for (int i = 0; i < size - 1; i++) {
+        for (int j = i + 1; j < size; j++) {
+            if (arr[i] > arr[j]) {
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+    }
+
+    
+    for (int i = 0; i < size - 1; i++) {
+        min_sum += arr[i];
+    }
+
+    
+    for (int i = 1; i < size; i++) {
+        max_sum += arr[i];
+    }
+
+    
+    printf("%ld %ld\n", min_sum, max_sum);
+}
+
+int main() {
+    int arr[5];
+    
+    
+    for (int i = 0; i < 5; i++) {
+        scanf("%d", &arr[i]);
+    }
+
+    
+    miniMaxSum(arr, 5);
+
+    return 0;
+}
