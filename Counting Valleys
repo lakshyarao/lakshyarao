@@ -1,0 +1,31 @@
+#include <stdio.h>
+#include <string.h>
+
+int countingValleys(int steps, char* path) {
+    int seaLevel = 0, valleys = 0;
+    
+    for (int i = 0; i < steps; i++) {
+        if (path[i] == 'U') {
+            seaLevel++;
+            if (seaLevel == 0) { // Just came up to sea level from a valley
+                valleys++;
+            }
+        } else {
+            seaLevel--;
+        }
+    }
+    
+    return valleys;
+}
+
+int main() {
+    int steps;
+    scanf("%d", &steps);
+    
+    char path[steps + 1];
+    scanf("%s", path);
+    
+    printf("%d\n", countingValleys(steps, path));
+    
+    return 0;
+}
